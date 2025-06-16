@@ -1,4 +1,4 @@
-.PHONY: run swag test migrate
+.PHONY: run swag test seed migrate reset seeddata
 
 run:
 	go run cmd/main.go
@@ -10,4 +10,12 @@ test:
 	go test ./...
 
 migrate:
-	psql $(DATABASE_URL) -f database/migration.sql
+	bash -c 'set -a && source .env && psql -d "$$DATABASE_URL" -f database/migration.sql'
+
+reset:
+	bash -c 'set -a && source .env && psql -d "$$DATABASE_URL" -f database/reset.sql'
+
+seeddata:
+	bash -c 'set -a && source .env && psql -d "$$DATABASE_URL" -f database/seed.sql'
+
+seed: reset migrate seeddata
