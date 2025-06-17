@@ -1,7 +1,10 @@
-.PHONY: run swag test coverage seed migrate reset seeddata
+.PHONY: run dev swag test coverage seed migrate reset seeddata
 
 run:
 	go run cmd/main.go
+
+dev:
+	air
 
 swag:
 	swag init --generalInfo cmd/main.go --output docs
