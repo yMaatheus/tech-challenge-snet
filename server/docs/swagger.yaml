@@ -21,6 +21,29 @@ definitions:
       zip_code:
         type: string
     type: object
+  model.Store:
+    properties:
+      address:
+        type: string
+      address_number:
+        type: string
+      city:
+        type: string
+      corporate_name:
+        type: string
+      establishment_id:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      number:
+        type: string
+      state:
+        type: string
+      zip_code:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -180,4 +203,176 @@ paths:
       summary: Update establishment
       tags:
       - establishments
+  /establishments/{id}/stores:
+    get:
+      parameters:
+      - description: Establishment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Store'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List stores by establishment ID
+      tags:
+      - establishments
+  /stores:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Store'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: List all stores
+      tags:
+      - stores
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Store to create
+        in: body
+        name: store
+        required: true
+        schema:
+          $ref: '#/definitions/model.Store'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Store'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new store
+      tags:
+      - stores
+  /stores/{id}:
+    delete:
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a store by ID
+      tags:
+      - stores
+    get:
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Store'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get store by ID
+      tags:
+      - stores
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Store ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Store update
+        in: body
+        name: store
+        required: true
+        schema:
+          $ref: '#/definitions/model.Store'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a store by ID
+      tags:
+      - stores
 swagger: "2.0"
