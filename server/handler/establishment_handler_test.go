@@ -11,6 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/yMaatheus/tech-challenge-snet/model"
+	"go.uber.org/zap"
 )
 
 type mockEstablishmentService struct{}
@@ -40,7 +41,9 @@ func (m *mockEstablishmentService) Delete(_ context.Context, id int64) error {
 func setupTestEcho() *echo.Echo {
 	e := echo.New()
 	mockService := &mockEstablishmentService{}
-	NewEstablishmentHandler(e, mockService)
+	logger := zap.NewNop()
+
+	NewEstablishmentHandler(e, mockService, logger)
 	return e
 }
 

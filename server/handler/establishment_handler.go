@@ -7,15 +7,17 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/yMaatheus/tech-challenge-snet/model"
 	"github.com/yMaatheus/tech-challenge-snet/service"
+	"go.uber.org/zap"
 )
 
 // EstablishmentHandler handles HTTP requests for establishments
 type EstablishmentHandler struct {
 	service service.EstablishmentService
+	Logger  *zap.Logger
 }
 
 // NewEstablishmentHandler registers establishment routes
-func NewEstablishmentHandler(e *echo.Echo, s service.EstablishmentService) {
+func NewEstablishmentHandler(e *echo.Echo, s service.EstablishmentService, logger *zap.Logger) {
 	h := &EstablishmentHandler{service: s}
 	e.POST("/establishments", h.Create)
 	e.GET("/establishments", h.List)
