@@ -1,4 +1,6 @@
 export interface Store {
+  id: string;
+
   number: string;
   name: string;
   corporate_name: string;
@@ -10,7 +12,5 @@ export interface Store {
 }
 
 export interface StoreWithEstablishment extends Store {
-  id: string;
-  businessId: string;
-  establishmentId: string;
+  establishment_id: string;
 }
