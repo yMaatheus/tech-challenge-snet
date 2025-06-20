@@ -13,7 +13,6 @@ type StoreService interface {
 	FindByID(ctx context.Context, id int64) (*model.Store, error)
 	Update(ctx context.Context, store *model.Store) error
 	Delete(ctx context.Context, id int64) error
-	FindByEstablishmentID(ctx context.Context, establishmentID int64) ([]model.Store, error)
 }
 
 type storeService struct {
@@ -42,8 +41,4 @@ func (s *storeService) Update(ctx context.Context, store *model.Store) error {
 
 func (s *storeService) Delete(ctx context.Context, id int64) error {
 	return s.repo.Delete(ctx, id)
-}
-
-func (s *storeService) FindByEstablishmentID(ctx context.Context, establishmentID int64) ([]model.Store, error) {
-	return s.repo.FindByEstablishmentID(ctx, establishmentID)
 }

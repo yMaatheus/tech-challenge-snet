@@ -24,7 +24,6 @@ func NewStoreHandler(e *echo.Echo, svc service.StoreService, logger *zap.Logger)
 	e.GET("/stores/:id", h.Get)
 	e.PUT("/stores/:id", h.Update)
 	e.DELETE("/stores/:id", h.Delete)
-	e.GET("/establishments/:id/stores", h.ListByEstablishment)
 }
 
 // CreateStore godoc
@@ -132,22 +131,4 @@ func (h *StoreHandler) Delete(c echo.Context) error {
 	}
 	h.Logger.Info("Store deleted", zap.Int64("id", id))
 	return c.JSON(http.StatusOK, map[string]string{"message": "Store deleted successfully"})
-}
-
-// ListStoresByEstablishment godoc
-// @Summary      List stores by establishment ID
-// @Tags         stores
-// @Produce      json
-// @Param        id   path      int  true  "Establishment ID"
-// @Success      200  {array}   model.Store
-// @Failure      500  {object}  map[string]string
-// @Router       /establishments/{id}/stores [get]
-func (h *StoreHandler) ListByEstablishment(c echo.Context) error {
-	establishmentID, _ := strconv.ParseInt(c.Param("id"), 10, 64)
-	stores, err := h.Service.FindByEstablishmentID(c.Request().Context(), establishmentID)
-	if err != nil {
-		h.Logger.Error("Failed to list stores by establishment", zap.Error(err))
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Could not fetch stores"})
-	}
-	return c.JSON(http.StatusOK, stores)
 }

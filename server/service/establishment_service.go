@@ -12,7 +12,7 @@ import (
 type EstablishmentService interface {
 	Create(ctx context.Context, e *model.Establishment) error
 	FindAll(ctx context.Context) ([]model.Establishment, error)
-	FindByID(ctx context.Context, id int64) (*model.Establishment, error)
+	FindByID(ctx context.Context, id int64) (*model.EstablishmentWithStores, error)
 	Update(ctx context.Context, e *model.Establishment) error
 	Delete(ctx context.Context, id int64) error
 }
@@ -34,8 +34,34 @@ func (s *establishmentService) FindAll(ctx context.Context) ([]model.Establishme
 	return s.repo.FindAll(ctx)
 }
 
-func (s *establishmentService) FindByID(ctx context.Context, id int64) (*model.Establishment, error) {
-	return s.repo.FindByID(ctx, id)
+func (s *establishmentService) FindByID(ctx context.Context, id int64) (*model.EstablishmentWithStores, error) {
+	establishment, err := s.repo.FindByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	if establishment == nil {
+		return nil, errors.New("establishment not found")
+	}
+
+	storesList, err := s.repo.FindStoresByEstablishmentID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	result := &model.EstablishmentWithStores{
+		ID:            establishment.ID,
+		Number:        establishment.Number,
+		Name:          establishment.Name,
+		CorporateName: establishment.CorporateName,
+		Address:       establishment.Address,
+		City:          establishment.City,
+		State:         establishment.State,
+		ZipCode:       establishment.ZipCode,
+		AddressNumber: establishment.AddressNumber,
+		Stores:        storesList,
+	}
+
+	return result, nil
 }
 
 func (s *establishmentService) Update(ctx context.Context, e *model.Establishment) error {

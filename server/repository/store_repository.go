@@ -13,7 +13,6 @@ type StoreRepository interface {
 	FindByID(ctx context.Context, id int64) (*model.Store, error)
 	Update(ctx context.Context, store *model.Store) error
 	Delete(ctx context.Context, id int64) error
-	FindByEstablishmentID(ctx context.Context, establishmentID int64) ([]model.Store, error)
 }
 
 type storeRepository struct {
@@ -69,21 +68,4 @@ func (r *storeRepository) Update(ctx context.Context, s *model.Store) error {
 func (r *storeRepository) Delete(ctx context.Context, id int64) error {
 	_, err := r.db.ExecContext(ctx, "DELETE FROM stores WHERE id=$1", id)
 	return err
-}
-
-func (r *storeRepository) FindByEstablishmentID(ctx context.Context, establishmentID int64) ([]model.Store, error) {
-	rows, err := r.db.QueryContext(ctx, "SELECT id, number, name, corporate_name, address, city, state, zip_code, address_number, establishment_id FROM stores WHERE establishment_id=$1", establishmentID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var stores []model.Store
-	for rows.Next() {
-		var s model.Store
-		if err := rows.Scan(&s.ID, &s.Number, &s.Name, &s.CorporateName, &s.Address, &s.City, &s.State, &s.ZipCode, &s.AddressNumber, &s.EstablishmentID); err != nil {
-			return nil, err
-		}
-		stores = append(stores, s)
-	}
-	return stores, nil
 }
