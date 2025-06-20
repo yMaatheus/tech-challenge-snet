@@ -1,4 +1,16 @@
 services:
+  api:
+    container_name: snet_dev_api
+    restart: on-failure
+    build:
+      context: ./server
+    environment:
+      - DATABASE_URL=postgres://admin:posgres_password@localhost:5432/snet_db?sslmode=disable
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+  
   postgres:
     image: postgres:16
     container_name: snet_dev_postgres

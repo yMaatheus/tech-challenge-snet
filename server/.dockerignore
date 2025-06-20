@@ -1,0 +1,6 @@
+**/*_test.go
+tmp/
+cover.out
+coverage.out
+*.log
+.air.toml
