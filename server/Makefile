@@ -13,7 +13,7 @@ test:
 	bash -c 'set -a && source .env && go test ./...'
 
 coverage:
-	bash -c 'set -a && source .env && go test -cover ./...
+	bash -c 'set -a && source .env && go test -cover -coverpkg=./repository,./handler,./service ./repository ./handler ./service'
 
 migrate:
 	bash -c 'set -a && source .env && psql -d "$$DATABASE_URL" -f database/migration.sql'
