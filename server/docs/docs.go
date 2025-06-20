@@ -343,6 +343,15 @@ const docTemplate = `{
                             "$ref": "#/definitions/model.Store"
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
                     "404": {
                         "description": "Not Found",
                         "schema": {
@@ -449,6 +458,15 @@ const docTemplate = `{
                             }
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -465,6 +483,15 @@ const docTemplate = `{
     "definitions": {
         "model.Establishment": {
             "type": "object",
+            "required": [
+                "address",
+                "address_number",
+                "city",
+                "name",
+                "number",
+                "state",
+                "zip_code"
+            ],
             "properties": {
                 "address": {
                     "type": "string"
@@ -570,6 +597,16 @@ const docTemplate = `{
         },
         "model.Store": {
             "type": "object",
+            "required": [
+                "address",
+                "address_number",
+                "city",
+                "establishment_id",
+                "name",
+                "number",
+                "state",
+                "zip_code"
+            ],
             "properties": {
                 "address": {
                     "type": "string"

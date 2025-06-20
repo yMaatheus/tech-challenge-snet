@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/yMaatheus/tech-challenge-snet/model"
 	"github.com/yMaatheus/tech-challenge-snet/service"
+	"github.com/yMaatheus/tech-challenge-snet/util"
 	"go.uber.org/zap"
 )
 
@@ -40,7 +41,12 @@ func (h *StoreHandler) Create(c echo.Context) error {
 	var store model.Store
 	if err := c.Bind(&store); err != nil {
 		h.Logger.Warn("Failed to bind store", zap.Error(err))
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request"})
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request body"})
+	}
+	if err := util.Validate.Struct(&store); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"validation_error": util.ParseValidationError(err),
+		})
 	}
 	if err := h.Service.Create(c.Request().Context(), &store); err != nil {
 		h.Logger.Error("Failed to create store", zap.Error(err))
@@ -72,11 +78,17 @@ func (h *StoreHandler) List(c echo.Context) error {
 // @Produce      json
 // @Param        id   path      int  true  "Store ID"
 // @Success      200  {object}  model.Store
+// @Failure      400  {object}  map[string]string
 // @Failure      404  {object}  map[string]string
 // @Failure      500  {object}  map[string]string
 // @Router       /stores/{id} [get]
 func (h *StoreHandler) Get(c echo.Context) error {
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil || id <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "Invalid store ID. Must be a positive integer.",
+		})
+	}
 	store, err := h.Service.FindByID(c.Request().Context(), id)
 	if err != nil {
 		h.Logger.Error("Failed to get store", zap.Error(err))
@@ -100,11 +112,21 @@ func (h *StoreHandler) Get(c echo.Context) error {
 // @Failure      500   {object} map[string]string
 // @Router       /stores/{id} [put]
 func (h *StoreHandler) Update(c echo.Context) error {
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil || id <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "Invalid store ID. Must be a positive integer.",
+		})
+	}
 	var store model.Store
 	if err := c.Bind(&store); err != nil {
 		h.Logger.Warn("Failed to bind store", zap.Error(err))
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request"})
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request body"})
+	}
+	if err := util.Validate.Struct(&store); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"validation_error": util.ParseValidationError(err),
+		})
 	}
 	store.ID = id
 	if err := h.Service.Update(c.Request().Context(), &store); err != nil {
@@ -121,10 +143,16 @@ func (h *StoreHandler) Update(c echo.Context) error {
 // @Produce      json
 // @Param        id   path      int  true  "Store ID"
 // @Success      200  {object}  map[string]string
+// @Failure      400  {object}  map[string]string
 // @Failure      500  {object}  map[string]string
 // @Router       /stores/{id} [delete]
 func (h *StoreHandler) Delete(c echo.Context) error {
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil || id <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "Invalid store ID. Must be a positive integer.",
+		})
+	}
 	if err := h.Service.Delete(c.Request().Context(), id); err != nil {
 		h.Logger.Error("Failed to delete store", zap.Error(err))
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Could not delete store"})

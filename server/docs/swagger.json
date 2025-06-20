@@ -337,6 +337,15 @@
                             "$ref": "#/definitions/model.Store"
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
                     "404": {
                         "description": "Not Found",
                         "schema": {
@@ -443,6 +452,15 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -459,6 +477,15 @@
     "definitions": {
         "model.Establishment": {
             "type": "object",
+            "required": [
+                "address",
+                "address_number",
+                "city",
+                "name",
+                "number",
+                "state",
+                "zip_code"
+            ],
             "properties": {
                 "address": {
                     "type": "string"
@@ -564,6 +591,16 @@
         },
         "model.Store": {
             "type": "object",
+            "required": [
+                "address",
+                "address_number",
+                "city",
+                "establishment_id",
+                "name",
+                "number",
+                "state",
+                "zip_code"
+            ],
             "properties": {
                 "address": {
                     "type": "string"

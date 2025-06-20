@@ -20,6 +20,14 @@ definitions:
         type: string
       zip_code:
         type: string
+    required:
+    - address
+    - address_number
+    - city
+    - name
+    - number
+    - state
+    - zip_code
     type: object
   model.EstablishmentWithStores:
     properties:
@@ -91,6 +99,15 @@ definitions:
         type: string
       zip_code:
         type: string
+    required:
+    - address
+    - address_number
+    - city
+    - establishment_id
+    - name
+    - number
+    - state
+    - zip_code
     type: object
 host: localhost:8080
 info:
@@ -320,6 +337,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
         "500":
           description: Internal Server Error
           schema:
@@ -343,6 +366,12 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Store'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
         "404":
           description: Not Found
           schema:
