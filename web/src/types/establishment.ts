@@ -1,5 +1,6 @@
 export interface Establishment {
   id: string
+  number: string
   name: string
   corporate_name: string
   address: string
