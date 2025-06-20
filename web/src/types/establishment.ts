@@ -1,3 +1,5 @@
+import type { StoreWithEstablishment } from "~/types/store"
+
 export interface Establishment {
   id: string
   number: string
@@ -8,4 +10,8 @@ export interface Establishment {
   city: string
   state: string
   zip_code: string
+}
+
+export interface EstablishmentWithStores extends Establishment {
+  stores: StoreWithEstablishment[]
 }
