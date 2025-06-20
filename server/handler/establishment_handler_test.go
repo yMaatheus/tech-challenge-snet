@@ -20,9 +20,20 @@ func (m *mockEstablishmentService) Create(_ context.Context, e *model.Establishm
 	e.ID = 1
 	return nil
 }
-func (m *mockEstablishmentService) FindAll(_ context.Context) ([]model.Establishment, error) {
-	return []model.Establishment{
-		{ID: 1, Name: "Test", Number: "E001"},
+func (m *mockEstablishmentService) FindAll(_ context.Context) ([]model.EstablishmentWithStoresTotal, error) {
+	return []model.EstablishmentWithStoresTotal{
+		{
+			ID:            1,
+			Number:        "E001",
+			Name:          "Test",
+			CorporateName: "Corp Test",
+			Address:       "Rua 1",
+			City:          "Cidade",
+			State:         "ST",
+			ZipCode:       "12345-000",
+			AddressNumber: "10",
+			StoresTotal:   3,
+		},
 	}, nil
 }
 func (m *mockEstablishmentService) FindByID(_ context.Context, id int64) (*model.EstablishmentWithStores, error) {
@@ -45,9 +56,7 @@ func (m *mockEstablishmentService) FindByID(_ context.Context, id int64) (*model
 func (m *mockEstablishmentService) Update(_ context.Context, e *model.Establishment) error {
 	return nil
 }
-func (m *mockEstablishmentService) Delete(_ context.Context, id int64) error {
-	return nil
-}
+func (m *mockEstablishmentService) Delete(_ context.Context, id int64) error { return nil }
 
 func setupTestEcho() *echo.Echo {
 	e := echo.New()
@@ -61,7 +70,6 @@ func setupTestEcho() *echo.Echo {
 func TestCreateEstablishment(t *testing.T) {
 	e := setupTestEcho()
 
-	// Request body
 	reqBody, _ := json.Marshal(map[string]interface{}{
 		"number": "E001",
 		"name":   "Test",
@@ -83,6 +91,7 @@ func TestListEstablishments(t *testing.T) {
 	e.ServeHTTP(rec, req)
 	assert.Equal(t, http.StatusOK, rec.Code)
 	assert.Contains(t, rec.Body.String(), "Test")
+	assert.Contains(t, rec.Body.String(), `"storesTotal":3`)
 }
 
 func TestGetEstablishmentByID(t *testing.T) {

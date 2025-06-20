@@ -11,6 +11,7 @@ import (
 type EstablishmentRepository interface {
 	Create(ctx context.Context, e *model.Establishment) error
 	FindAll(ctx context.Context) ([]model.Establishment, error)
+	FindAllWithStoresTotal(ctx context.Context) ([]model.EstablishmentWithStoresTotal, error)
 	FindByID(ctx context.Context, id int64) (*model.Establishment, error)
 	Update(ctx context.Context, e *model.Establishment) error
 	Delete(ctx context.Context, id int64) error
@@ -53,6 +54,45 @@ func (r *establishmentRepository) FindAll(ctx context.Context) ([]model.Establis
 	for rows.Next() {
 		var e model.Establishment
 		err := rows.Scan(&e.ID, &e.Number, &e.Name, &e.CorporateName, &e.Address, &e.City, &e.State, &e.ZipCode, &e.AddressNumber)
+		if err != nil {
+			return nil, err
+		}
+		establishments = append(establishments, e)
+	}
+	return establishments, nil
+}
+
+func (r *establishmentRepository) FindAllWithStoresTotal(ctx context.Context) ([]model.EstablishmentWithStoresTotal, error) {
+	query := `
+		SELECT 
+			e.id, e.number, e.name, e.corporate_name, e.address, e.city, e.state, e.zip_code, e.address_number,
+			COUNT(s.id) AS stores_total
+		FROM establishments e
+		LEFT JOIN stores s ON e.id = s.establishment_id
+		GROUP BY e.id, e.number, e.name, e.corporate_name, e.address, e.city, e.state, e.zip_code, e.address_number
+		ORDER BY e.id
+	`
+	rows, err := r.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var establishments []model.EstablishmentWithStoresTotal
+	for rows.Next() {
+		var e model.EstablishmentWithStoresTotal
+		err := rows.Scan(
+			&e.ID,
+			&e.Number,
+			&e.Name,
+			&e.CorporateName,
+			&e.Address,
+			&e.City,
+			&e.State,
+			&e.ZipCode,
+			&e.AddressNumber,
+			&e.StoresTotal,
+		)
 		if err != nil {
 			return nil, err
 		}

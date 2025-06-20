@@ -31,7 +31,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Establishment"
+                                "$ref": "#/definitions/model.EstablishmentWithStoresTotal"
                             }
                         }
                     },
@@ -527,6 +527,41 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/model.Store"
                     }
+                },
+                "zip_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.EstablishmentWithStoresTotal": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "address_number": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "corporate_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "storesTotal": {
+                    "type": "integer"
                 },
                 "zip_code": {
                     "type": "string"

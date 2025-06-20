@@ -20,6 +20,9 @@ type mockRepo struct {
 
 func (m *mockRepo) Create(ctx context.Context, e *model.Establishment) error   { return nil }
 func (m *mockRepo) FindAll(ctx context.Context) ([]model.Establishment, error) { return nil, nil }
+func (m *mockRepo) FindAllWithStoresTotal(ctx context.Context) ([]model.EstablishmentWithStoresTotal, error) {
+	return nil, nil
+}
 func (m *mockRepo) FindByID(ctx context.Context, id int64) (*model.Establishment, error) {
 	return m.findByIDResult, m.findByIDErr
 }

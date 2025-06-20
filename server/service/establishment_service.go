@@ -11,7 +11,7 @@ import (
 // EstablishmentService defines business logic for establishments.
 type EstablishmentService interface {
 	Create(ctx context.Context, e *model.Establishment) error
-	FindAll(ctx context.Context) ([]model.Establishment, error)
+	FindAll(ctx context.Context) ([]model.EstablishmentWithStoresTotal, error)
 	FindByID(ctx context.Context, id int64) (*model.EstablishmentWithStores, error)
 	Update(ctx context.Context, e *model.Establishment) error
 	Delete(ctx context.Context, id int64) error
@@ -30,8 +30,8 @@ func (s *establishmentService) Create(ctx context.Context, e *model.Establishmen
 	return s.repo.Create(ctx, e)
 }
 
-func (s *establishmentService) FindAll(ctx context.Context) ([]model.Establishment, error) {
-	return s.repo.FindAll(ctx)
+func (s *establishmentService) FindAll(ctx context.Context) ([]model.EstablishmentWithStoresTotal, error) {
+	return s.repo.FindAllWithStoresTotal(ctx)
 }
 
 func (s *establishmentService) FindByID(ctx context.Context, id int64) (*model.EstablishmentWithStores, error) {

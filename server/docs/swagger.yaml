@@ -46,6 +46,29 @@ definitions:
       zip_code:
         type: string
     type: object
+  model.EstablishmentWithStoresTotal:
+    properties:
+      address:
+        type: string
+      address_number:
+        type: string
+      city:
+        type: string
+      corporate_name:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      number:
+        type: string
+      state:
+        type: string
+      storesTotal:
+        type: integer
+      zip_code:
+        type: string
+    type: object
   model.Store:
     properties:
       address:
@@ -86,7 +109,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/model.Establishment'
+              $ref: '#/definitions/model.EstablishmentWithStoresTotal'
             type: array
         "500":
           description: Internal Server Error

@@ -53,7 +53,7 @@ func (h *EstablishmentHandler) Create(c echo.Context) error {
 // @Description  Get all establishments
 // @Tags         establishments
 // @Produce      json
-// @Success      200  {array}   model.Establishment
+// @Success      200  {array}   model.EstablishmentWithStoresTotal
 // @Failure      500  {object}  map[string]interface{}
 // @Router       /establishments [get]
 func (h *EstablishmentHandler) List(c echo.Context) error {
