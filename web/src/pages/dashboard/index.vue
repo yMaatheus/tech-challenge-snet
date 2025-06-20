@@ -38,7 +38,7 @@
 
         <div class="flex space-x-2">
           <Button class="flex-1" as-child>
-            <NuxtLink :to="`/dashboard/${e.id}/stores`"> Ver Lojas </NuxtLink>
+            <NuxtLink :to="`/dashboard/${e.id}`"> Ver Lojas </NuxtLink>
           </Button>
 
           <EstablishmentForm
