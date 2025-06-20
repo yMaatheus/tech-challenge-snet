@@ -12,6 +12,10 @@ export interface Establishment {
   zip_code: string
 }
 
+export interface EstablishmentWithStoresTotal extends Establishment {
+  storesTotal: number;
+}
+
 export interface EstablishmentWithStores extends Establishment {
   stores: StoreWithEstablishment[]
 }
