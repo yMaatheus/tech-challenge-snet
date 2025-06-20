@@ -115,7 +115,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Establishment"
+                            "$ref": "#/definitions/model.EstablishmentWithStores"
                         }
                     },
                     "400": {
@@ -233,46 +233,6 @@ const docTemplate = `{
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/establishments/{id}/stores": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "establishments"
-                ],
-                "summary": "List stores by establishment ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Establishment ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/model.Store"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
                         }
                     }
                 }
@@ -529,6 +489,44 @@ const docTemplate = `{
                 },
                 "state": {
                     "type": "string"
+                },
+                "zip_code": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.EstablishmentWithStores": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "address_number": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "corporate_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "stores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Store"
+                    }
                 },
                 "zip_code": {
                     "type": "string"

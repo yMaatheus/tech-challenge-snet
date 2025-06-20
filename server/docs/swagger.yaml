@@ -21,6 +21,31 @@ definitions:
       zip_code:
         type: string
     type: object
+  model.EstablishmentWithStores:
+    properties:
+      address:
+        type: string
+      address_number:
+        type: string
+      city:
+        type: string
+      corporate_name:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      number:
+        type: string
+      state:
+        type: string
+      stores:
+        items:
+          $ref: '#/definitions/model.Store'
+        type: array
+      zip_code:
+        type: string
+    type: object
   model.Store:
     properties:
       address:
@@ -147,7 +172,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Establishment'
+            $ref: '#/definitions/model.EstablishmentWithStores'
         "400":
           description: Bad Request
           schema:
@@ -201,32 +226,6 @@ paths:
             additionalProperties: true
             type: object
       summary: Update establishment
-      tags:
-      - establishments
-  /establishments/{id}/stores:
-    get:
-      parameters:
-      - description: Establishment ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/model.Store'
-            type: array
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: List stores by establishment ID
       tags:
       - establishments
   /stores:
