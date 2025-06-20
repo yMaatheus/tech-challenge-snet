@@ -14,6 +14,7 @@ type EstablishmentRepository interface {
 	FindByID(ctx context.Context, id int64) (*model.Establishment, error)
 	Update(ctx context.Context, e *model.Establishment) error
 	Delete(ctx context.Context, id int64) error
+	FindStoresByEstablishmentID(ctx context.Context, establishmentID int64) ([]model.Store, error)
 	HasStores(ctx context.Context, id int64) (bool, error)
 }
 
@@ -93,6 +94,23 @@ func (r *establishmentRepository) Delete(ctx context.Context, id int64) error {
 	query := `DELETE FROM establishments WHERE id = $1`
 	_, err := r.db.ExecContext(ctx, query, id)
 	return err
+}
+
+func (r *establishmentRepository) FindStoresByEstablishmentID(ctx context.Context, establishmentID int64) ([]model.Store, error) {
+	rows, err := r.db.QueryContext(ctx, "SELECT id, number, name, corporate_name, address, city, state, zip_code, address_number, establishment_id FROM stores WHERE establishment_id=$1", establishmentID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var stores []model.Store
+	for rows.Next() {
+		var s model.Store
+		if err := rows.Scan(&s.ID, &s.Number, &s.Name, &s.CorporateName, &s.Address, &s.City, &s.State, &s.ZipCode, &s.AddressNumber, &s.EstablishmentID); err != nil {
+			return nil, err
+		}
+		stores = append(stores, s)
+	}
+	return stores, nil
 }
 
 func (r *establishmentRepository) HasStores(ctx context.Context, id int64) (bool, error) {

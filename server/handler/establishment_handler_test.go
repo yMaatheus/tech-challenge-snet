@@ -25,9 +25,20 @@ func (m *mockEstablishmentService) FindAll(_ context.Context) ([]model.Establish
 		{ID: 1, Name: "Test", Number: "E001"},
 	}, nil
 }
-func (m *mockEstablishmentService) FindByID(_ context.Context, id int64) (*model.Establishment, error) {
+func (m *mockEstablishmentService) FindByID(_ context.Context, id int64) (*model.EstablishmentWithStores, error) {
 	if id == 1 {
-		return &model.Establishment{ID: 1, Name: "Test", Number: "E001"}, nil
+		return &model.EstablishmentWithStores{
+			ID:            1,
+			Number:        "E001",
+			Name:          "Test",
+			CorporateName: "Corp Test",
+			Address:       "Rua 1",
+			City:          "Cidade",
+			State:         "ST",
+			ZipCode:       "12345-000",
+			AddressNumber: "10",
+			Stores:        []model.Store{},
+		}, nil
 	}
 	return nil, nil
 }
@@ -81,7 +92,8 @@ func TestGetEstablishmentByID(t *testing.T) {
 
 	e.ServeHTTP(rec, req)
 	assert.Equal(t, http.StatusOK, rec.Code)
-	assert.Contains(t, rec.Body.String(), "Test")
+	assert.Contains(t, rec.Body.String(), `"id":1`)
+	assert.Contains(t, rec.Body.String(), `"stores":`)
 }
 
 func TestGetEstablishmentByID_NotFound(t *testing.T) {

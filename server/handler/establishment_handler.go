@@ -70,7 +70,7 @@ func (h *EstablishmentHandler) List(c echo.Context) error {
 // @Tags         establishments
 // @Produce      json
 // @Param        id   path      int  true  "Establishment ID"
-// @Success      200  {object}  model.Establishment
+// @Success      200  {object}  model.EstablishmentWithStores
 // @Failure      400  {object}  map[string]interface{}
 // @Failure      404  {object}  map[string]interface{}
 // @Failure      500  {object}  map[string]interface{}

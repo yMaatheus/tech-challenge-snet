@@ -14,12 +14,14 @@ type mockRepo struct {
 	hasStoresResult bool
 	hasStoresErr    error
 	deleteCalled    bool
+	findByIDResult  *model.Establishment
+	findByIDErr     error
 }
 
 func (m *mockRepo) Create(ctx context.Context, e *model.Establishment) error   { return nil }
 func (m *mockRepo) FindAll(ctx context.Context) ([]model.Establishment, error) { return nil, nil }
 func (m *mockRepo) FindByID(ctx context.Context, id int64) (*model.Establishment, error) {
-	return nil, nil
+	return m.findByIDResult, m.findByIDErr
 }
 func (m *mockRepo) Update(ctx context.Context, e *model.Establishment) error { return nil }
 func (m *mockRepo) Delete(ctx context.Context, id int64) error {
@@ -28,6 +30,9 @@ func (m *mockRepo) Delete(ctx context.Context, id int64) error {
 }
 func (m *mockRepo) HasStores(ctx context.Context, id int64) (bool, error) {
 	return m.hasStoresResult, m.hasStoresErr
+}
+func (m *mockRepo) FindStoresByEstablishmentID(ctx context.Context, establishmentID int64) ([]model.Store, error) {
+	return nil, nil
 }
 
 func TestDeleteEstablishment_WhenNoStores_ShouldDelete(t *testing.T) {
