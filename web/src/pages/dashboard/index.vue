@@ -34,7 +34,9 @@
             e.address + " - " + e.city + " - " + e.state + " - " + e.zip_code
           }}
         </p>
-        <p class="text-sm text-gray-500 mb-4">{{ 0 }} loja(s) vinculada(s)</p>
+        <p class="text-sm text-gray-500 mb-4">
+          {{ e.storesTotal }} loja(s) vinculada(s)
+        </p>
 
         <div class="flex space-x-2">
           <Button class="flex-1" as-child>
@@ -93,10 +95,12 @@ async function handleCreateEstablishment(data: Establishment) {
     refresh();
 
     toast.success("Estabelecimento foi criado com sucesso!", {
-      description: `${data.name} - ${data.address}, ${data.address_number}`
+      description: `${data.name} - ${data.address}, ${data.address_number}`,
     });
   } catch (error) {
-    if (error instanceof Error) toast.error(error.message);
+    if (error instanceof Error) {
+      toast.error("Erro ao tentar criar o estabelecimento.");
+    }
   }
 }
 
@@ -110,10 +114,12 @@ async function handleUpdateEstablishment(data: Establishment) {
     refresh();
 
     toast.success("Estabelecimento foi atualizado com sucesso!", {
-      description: `${data.name} - ${data.address}, ${data.address_number}`
+      description: `${data.name} - ${data.address}, ${data.address_number}`,
     });
   } catch (error) {
-    if (error instanceof Error) toast.error(error.message);
+    if (error instanceof Error) {
+      toast.error("Erro ao tentar atualizar o estabelecimento.");
+    }
   }
 }
 
@@ -124,10 +130,12 @@ async function handleDeleteEstablishment(establishment: Establishment) {
       await refresh();
 
       toast.success("Estabelecimento removido com sucesso!", {
-        description: `${establishment.name}`
+        description: `${establishment.name}`,
       });
     } catch (error) {
-      if (error instanceof Error) toast.error(error.message);
+      if (error instanceof Error) {
+        toast.error("Erro ao tentar remover o estabelecimento.");
+      }
     }
   }
 }
