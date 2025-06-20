@@ -2,7 +2,7 @@ import type { Establishment } from "~/types/establishment";
 
 export async function createEstablishment(payload: Partial<Establishment>) {
   const config = useRuntimeConfig()
-  const { data, error } = await useFetch<Establishment>(
+  const response = await $fetch<Establishment>(
     `${config.public.apiBase}/establishments`,
     {
       method: 'POST',
@@ -19,7 +19,5 @@ export async function createEstablishment(payload: Partial<Establishment>) {
     }
   )
 
-  if (error.value) throw error.value
-  
-  return data.value
+  return response
 }

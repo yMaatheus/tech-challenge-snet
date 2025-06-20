@@ -15,7 +15,7 @@ type CreateStorePayload = {
 
 export async function createStore(payload: CreateStorePayload) {
   const config = useRuntimeConfig();
-  const { data, error } = await useFetch<Store>(
+  const response = await $fetch<Store>(
     `${config.public.apiBase}/stores`,
     {
       method: "POST",
@@ -34,7 +34,5 @@ export async function createStore(payload: CreateStorePayload) {
     }
   );
 
-  if (error.value) throw error.value;
-
-  return data.value;
+  return response;
 }
