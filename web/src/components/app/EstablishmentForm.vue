@@ -26,11 +26,12 @@ const localOpen = ref(props.open ?? false);
 
 const form = reactive({
   id: "",
+  number: "",
+  name: "",
+  corporate_name: "",
   address: "",
   address_number: "",
   city: "",
-  corporate_name: "",
-  name: "",
   state: "",
   zip_code: "",
 });
@@ -42,11 +43,12 @@ watch(
       form,
       {
         id: "",
+        number: "",
+        name: "",
+        corporate_name: "",
         address: "",
         address_number: "",
         city: "",
-        corporate_name: "",
-        name: "",
         state: "",
         zip_code: "",
       },
@@ -92,7 +94,18 @@ function submitForm() {
 
       <form class="space-y-4 mt-4" @submit.prevent="submitForm">
         <div>
-          <label class="block text-sm font-medium mb-1">Nome fantasia</label>
+          <label class="block text-sm font-medium mb-1"
+            >Número de Estabelecimento</label
+          >
+          <Input
+            v-model="form.number"
+            type="text"
+            class="input w-full"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Nome</label>
           <Input
             v-model="form.name"
             type="text"
