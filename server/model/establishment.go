@@ -3,12 +3,12 @@ package model
 // Establishment represents a business establishment
 type Establishment struct {
 	ID            int64  `json:"id"`
-	Number        string `json:"number"`
-	Name          string `json:"name"`
+	Number        string `json:"number" validate:"required"`
+	Name          string `json:"name" validate:"required"`
 	CorporateName string `json:"corporate_name"`
-	Address       string `json:"address"`
-	City          string `json:"city"`
-	State         string `json:"state"`
-	ZipCode       string `json:"zip_code"`
-	AddressNumber string `json:"address_number"`
+	Address       string `json:"address" validate:"required"`
+	City          string `json:"city" validate:"required"`
+	State         string `json:"state" validate:"required,len=2"`
+	ZipCode       string `json:"zip_code" validate:"required"`
+	AddressNumber string `json:"address_number" validate:"required"`
 }

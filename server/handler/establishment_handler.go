@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/yMaatheus/tech-challenge-snet/model"
 	"github.com/yMaatheus/tech-challenge-snet/service"
+	"github.com/yMaatheus/tech-challenge-snet/util"
 	"go.uber.org/zap"
 )
 
@@ -41,6 +42,11 @@ func (h *EstablishmentHandler) Create(c echo.Context) error {
 	var e model.Establishment
 	if err := c.Bind(&e); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{"error": "Invalid request body"})
+	}
+	if err := util.Validate.Struct(&e); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"validation_error": util.ParseValidationError(err),
+		})
 	}
 	if err := h.service.Create(c.Request().Context(), &e); err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{"error": err.Error()})
@@ -77,8 +83,10 @@ func (h *EstablishmentHandler) List(c echo.Context) error {
 // @Router       /establishments/{id} [get]
 func (h *EstablishmentHandler) GetByID(c echo.Context) error {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{"error": "Invalid ID"})
+	if err != nil || id <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"error": "Invalid establishment ID. Must be a positive integer.",
+		})
 	}
 	establishment, err := h.service.FindByID(c.Request().Context(), id)
 	if err != nil {
@@ -104,12 +112,19 @@ func (h *EstablishmentHandler) GetByID(c echo.Context) error {
 // @Router       /establishments/{id} [put]
 func (h *EstablishmentHandler) Update(c echo.Context) error {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{"error": "Invalid ID"})
+	if err != nil || id <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"error": "Invalid establishment ID. Must be a positive integer.",
+		})
 	}
 	var e model.Establishment
 	if err := c.Bind(&e); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{"error": "Invalid request body"})
+	}
+	if err := util.Validate.Struct(&e); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"validation_error": util.ParseValidationError(err),
+		})
 	}
 	e.ID = id
 	if err := h.service.Update(c.Request().Context(), &e); err != nil {
@@ -130,8 +145,10 @@ func (h *EstablishmentHandler) Update(c echo.Context) error {
 // @Router       /establishments/{id} [delete]
 func (h *EstablishmentHandler) Delete(c echo.Context) error {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{"error": "Invalid ID"})
+	if err != nil || id <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"error": "Invalid establishment ID. Must be a positive integer.",
+		})
 	}
 	if err := h.service.Delete(c.Request().Context(), id); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
