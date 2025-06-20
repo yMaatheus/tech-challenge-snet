@@ -81,7 +81,6 @@ definePageMeta({
   middleware: "auth",
 });
 
-const feedbackMsg = ref("");
 const isDialogOpen = ref(false);
 
 const { data: establishments, refresh } = await fetchEstablishments();
@@ -97,7 +96,7 @@ async function handleCreateEstablishment(data: Establishment) {
       description: `${data.name} - ${data.address}, ${data.address_number}`
     });
   } catch (error) {
-    if (error instanceof Error) feedbackMsg.value = error.message;
+    if (error instanceof Error) toast.error(error.message);
   }
 }
 
@@ -114,7 +113,7 @@ async function handleUpdateEstablishment(data: Establishment) {
       description: `${data.name} - ${data.address}, ${data.address_number}`
     });
   } catch (error) {
-    if (error instanceof Error) feedbackMsg.value = error.message;
+    if (error instanceof Error) toast.error(error.message);
   }
 }
 
@@ -128,7 +127,7 @@ async function handleDeleteEstablishment(establishment: Establishment) {
         description: `${establishment.name}`
       });
     } catch (error) {
-      if (error instanceof Error) feedbackMsg.value = error.message;
+      if (error instanceof Error) toast.error(error.message);
     }
   }
 }
