@@ -2,3 +2,6 @@
   cmd = "go run cmd/main.go"
   include_ext = ["go", "tpl", "tmpl", "html"]
   exclude_dir = ["vendor", "docs", "database"]
+
+[app]
+  address = "0.0.0.0"

@@ -3,4 +3,3 @@ tmp/
 cover.out
 coverage.out
 *.log
-.air.toml

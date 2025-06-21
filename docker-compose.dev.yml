@@ -1,15 +1,27 @@
 services:
+  web:
+    container_name: snet_dev_web
+    build:
+      context: ./web
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+      - postgres
   api:
     container_name: snet_dev_api
     restart: on-failure
     build:
       context: ./server
+      dockerfile: Dockerfile.dev
     environment:
       - DATABASE_URL=postgres://admin:posgres_password@postgres:5432/snet_db?sslmode=disable
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
   
   postgres:
     image: postgres:16
