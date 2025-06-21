@@ -17,6 +17,8 @@ WORKDIR /app
 
 COPY --from=build /app/app .
 
+ENV SWAGGER_HOST=snet-api.fly.dev
+
 ENV PORT=8080
 
 EXPOSE 8080

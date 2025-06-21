@@ -13,7 +13,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
 	"github.com/yMaatheus/tech-challenge-snet/config"
-	_ "github.com/yMaatheus/tech-challenge-snet/docs"
+	"github.com/yMaatheus/tech-challenge-snet/docs"
 	"github.com/yMaatheus/tech-challenge-snet/handler"
 	"github.com/yMaatheus/tech-challenge-snet/repository"
 	"github.com/yMaatheus/tech-challenge-snet/service"
@@ -55,6 +55,8 @@ func main() {
 	handler.NewStoreHandler(e, storeService, logger)
 
 	// Swagger endpoint
+	docs.SwaggerInfo.Host = os.Getenv("SWAGGER_HOST")
+
 	e.GET("/docs/*", echoSwagger.WrapHandler)
 	e.GET("/docs", func(c echo.Context) error {
 		return c.Redirect(302, "/docs/index.html")
