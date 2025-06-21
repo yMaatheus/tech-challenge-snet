@@ -1,4 +1,4 @@
-# Tech Challenge SNET API
+# Tech Challenge Snet
 
 API para gerenciamento de estabelecimentos e lojas.
 
