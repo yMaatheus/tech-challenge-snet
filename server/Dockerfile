@@ -11,14 +11,11 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o app ./cmd
 
-FROM ubuntu:22.04
+FROM alpine:3.14
 
 WORKDIR /app
 
 COPY --from=build /app/app .
-COPY .env .env
-
-COPY database ./database
 
 ENV PORT=8080
 

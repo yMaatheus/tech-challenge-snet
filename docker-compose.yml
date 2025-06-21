@@ -1,0 +1,45 @@
+services:
+  web:
+    container_name: snet_web
+    build:
+      context: ./web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+      - postgres
+  api:
+    container_name: snet_api
+    restart: on-failure
+    build:
+      context: ./server
+    environment:
+      - DATABASE_URL=postgres://admin:posgres_password@postgres:5432/snet_db?sslmode=disable
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+  
+  postgres:
+    image: postgres:16
+    container_name: snet_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: posgres_password
+      POSTGRES_DB: snet_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata_snet:/var/lib/postgresql/data
+      - ./server/database/migration.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "admin", "-d", "snet_db"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  pgdata_snet:

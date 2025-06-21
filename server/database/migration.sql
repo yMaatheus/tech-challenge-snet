@@ -1,4 +1,4 @@
-CREATE TABLE establishments (
+CREATE TABLE IF NOT EXISTS establishments (
     id SERIAL PRIMARY KEY,
     number VARCHAR(20) NOT NULL,
     name VARCHAR(100) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE establishments (
     address_number VARCHAR(10)
 );
 
-CREATE TABLE stores (
+CREATE TABLE IF NOT EXISTS stores (
     id SERIAL PRIMARY KEY,
     number VARCHAR(20) NOT NULL,
     name VARCHAR(100) NOT NULL,
