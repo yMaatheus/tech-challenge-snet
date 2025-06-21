@@ -11,7 +11,7 @@
         :on-save="handleCreateEstablishment"
       >
         <template #trigger>
-          <Button variant="default" size="lg" @click="isDialogOpen = true">
+          <Button variant="default" size="lg" class="w-3/4 md:w-auto" @click="isDialogOpen = true">
             <Plus class="w-4 h-4" />
             Criar Estabelecimento
           </Button>

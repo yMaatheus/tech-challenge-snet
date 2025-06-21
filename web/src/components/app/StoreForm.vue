@@ -101,7 +101,7 @@ function submitForm() {
         <Button>Abrir formulário</Button>
       </slot>
     </DialogTrigger>
-    <DialogContent>
+    <DialogContent class="w-5/6 md:w-full grid-rows-[auto_minmax(0,1fr)_auto] max-h-[90dvh]">
       <DialogHeader>
         <DialogTitle>
           {{ props.title ?? "Cadastrar Loja" }}
@@ -111,7 +111,7 @@ function submitForm() {
         </DialogDescription>
       </DialogHeader>
 
-      <form class="space-y-4 mt-4" @submit.prevent="submitForm">
+      <form class="space-y-4 mt-4 overflow-y-auto" @submit.prevent="submitForm">
         <div>
           <label class="block text-sm font-medium mb-1">Número da Loja</label>
           <Input

@@ -1,15 +1,20 @@
 <template>
   <div class="container mx-auto py-8 px-4">
-    <div class="flex items-center justify-between mb-6">
-      <div class="flex items-center space-x-4">
+    <div
+      class="flex gap-5 flex-col items-center justify-between mb-6 md:flex-row"
+    >
+      <div class="flex flex-col space-x-4 space-y-2 w-full md:flex-row">
         <NuxtLink :to="`/dashboard`" as-child>
-          <Button variant="ghost" class="text-blue-600 hover:text-blue-800">
+          <Button
+            variant="ghost"
+            class="text-blue-600 hover:text-blue-800 text-center"
+          >
             <ChevronLeft class="w-4 h-4" />
             Voltar
           </Button>
         </NuxtLink>
 
-        <h2 class="text-2xl font-bold text-gray-900">
+        <h2 class="text-center text-2xl font-bold text-gray-900 md:text-left">
           Lojas - {{ establishment?.name || "Carregando..." }}
         </h2>
       </div>
@@ -20,7 +25,12 @@
         :on-save="handleCreateStore"
       >
         <template #trigger>
-          <Button variant="default" size="lg" @click="isDialogOpen = true">
+          <Button
+            variant="default"
+            size="lg"
+            class="w-3/4 md:w-auto"
+            @click="isDialogOpen = true"
+          >
             <Plus class="w-4 h-4" />
             Nova Loja
           </Button>
