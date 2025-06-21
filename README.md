@@ -2,6 +2,17 @@
 
 API para gerenciamento de estabelecimentos e lojas.
 
+## Deploy
+
+- **URL de Produção:**
+  - Frontend: [https://snet.ymaatheus.dev/](https://snet.ymaatheus.dev/)
+  - Backend: [https://snet-api.fly.dev/](https://snet-api.fly.dev/)
+  
+  > Documentação Swagger: https://snet-api.fly.dev/docs
+
+  ## Atenção! A Autenticação no FrontEnd é apenas uma simulação!
+  Digite qualquer email e senha e você conseguirá acessar o dashboard da aplicação.
+
 ---
 
 ## 🏗️ Como rodar o projeto
@@ -44,8 +55,6 @@ API para gerenciamento de estabelecimentos e lojas.
     ```
 
 ### Via Docker
-
-Siga os passos 1 ao 4 antes de seguir via docker.
 
 1. Suba os containers:
     ```
@@ -142,3 +151,62 @@ Siga os passos 1 ao 4 antes de seguir via docker.
     }
 
 ---
+
+# 🏗️ Estrutura de Pastas do Backend
+
+```
+
+server/
+  cmd/
+    main.go               # Ponto de entrada da aplicação. Inicializa Echo, middlewares, rotas e configs principais.
+  config/
+    config.go             # Gerenciamento de variáveis de ambiente e configuração de banco de dados.
+  database/
+    migration.sql         # Scripts de migração e estruturação do banco de dados.
+    reset.sql             # Script para resetar o banco em ambiente de desenvolvimento/teste.
+  docs/
+    ...                   # Arquivos do Swagger/OpenAPI. Documentação da API (acessível em /docs).
+  handler/
+    ...                   # Handlers: camada responsável por processar as requisições HTTP, validar dados e retornar respostas.
+  model/
+    ...                   # Models/Entidades: Definições das structs usadas em todo o sistema (ex: Store, Establishment).
+  repository/
+    ...                   # Repositórios: Camada de acesso ao banco de dados, SQL queries e CRUD.
+  service/
+    ...                   # Serviços (business logic): Orquestração das regras de negócio do sistema.
+  testutil/
+    ...                   # Utilitários para facilitar a execução de testes, como helpers para banco de dados e mocks.
+  util/
+    ...                   # Funções auxiliares gerais: helpers de validação, formatação de erros, etc.
+  go.mod
+  go.sum
+
+```
+
+# 📑 Frontend NuxtJs 3 - Estrutura de Pastas
+
+```
+src/
+├── assets/                   # Arquivos estáticos (imagens, css, fontes)
+│   └── css/
+│       └── tailwind.css
+├── components/               
+│   ├── app/                  # Componentes com regra de negócio (ex: formulários de domínio)
+│   └── ui/                   # Design system, componentes visuais reutilizáveis
+│       ├── button/
+│       ├── ...
+├── layouts/                  # Layouts globais
+├── lib/                      # Funções utilitárias e helpers
+│   └── utils.ts
+├── middleware/               # Middlewares (ex: autenticação)
+│   └── auth.ts
+├── pages/                    # Páginas do projeto, estrutura reflete as rotas
+│   ├── index.vue
+│   └── dashboard/
+│       └── ...
+├── public/                   # Arquivos públicos acessíveis por URL (favicon, robots.txt)
+├── services/                 # Serviços para chamadas de API e lógica de integração
+├── types/                    # Tipos e interfaces TypeScript do domínio
+└── ...
+
+```
