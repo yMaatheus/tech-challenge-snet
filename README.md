@@ -15,6 +15,18 @@ API para gerenciamento de estabelecimentos e lojas.
 
 ---
 
+## 💡 Possíveis Melhorias
+- Separação de DTOs (requests/responses) dos Models de domínio.
+- Mensagens de validação customizadas e validação condicional nos endpoints.
+- Cobertura de testes para cenários de erro e casos de borda.
+- Paginação, busca e filtros nos endpoints de listagem.
+- Documentação Swagger com exemplos de erros e payloads.
+- Implementação de autenticação/autorização (ex: JWT).
+- Uso de migrations versionadas (golang-migrate).
+- Adição de métricas para monitoramento e tracing (OpenTelemetry).
+- Melhor organização das camadas (UseCases).
+- Validação nos formulários do frontend para garantir melhor UX.
+
 ## 🏗️ Como rodar o projeto
 
 ### Localmente
